@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+    <title>Home</title>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand"  th:href="@{/index}">Home</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+                <li sec:authorize="isAuthenticated()" ><a th:href="@{/doctor}">For Doctors</a></li>
+                <li sec:authorize="isAuthenticated()"  ><a th:href="@{/pharmacist}">For pharmacist</a></li>
+                <li sec:authorize="isAuthenticated()" ><a th:href="@{/patient}">For patients</a></li>
+
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/registration}">Registration</a></li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+    <br>
+    <br>
+    <div class="container">
+        <h2>Electronic Medical Prescriptions</h2>
+        <h3>Section : SAH</h3>
+        <img src="https://www.sme.org/globalassets/sme.org/technologies/articles/2020/06---june/istock-1202232039_1920x1080.jpg"
+             class="img-fluid" alt="Responsive image" style="content:center; width:100%; height:300px;">
+
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Number</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Dania Saleh Aljedani</td>
+                <td>2112026</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Rafal Amir</td>
+                <td>2113845</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Maryam makki shami</td>
+                <td>1914977</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Alhanouf Alsulami</td>
+                <td>2112617</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <p>
+            Welcome <span sec:authentication="principal.username">User</span>
+        </p>
+        <h3>the project</h3>
+        <p class="text-justify">
+            In line with Vision 2030, technology will play a pivotal role in the coming years, especially in the healthcare sector, and the Corona pandemic has accelerated the pace of this change.
+            Prescriptions are the language of dialogue between a doctor and a pharmacist. According to a recent study prepared by the National Institute of the College of Medicine and Physicians in the United States of America, it has shown that illegible handwriting can cause fatal errors, and the study stated that more than 7,000 people die annually in America due to medical errors caused by illegible handwriting. In addition to spelling errors, patients suffer from the inability to find some medicines in pharmacies, or the inability to know the specific doses and some medical details that interest the patient and help him in the treatment phase.
+            Here arose the need for electronic prescriptions, in a technical framework in which doctors and medical practitioners are allowed to share prescriptions with patients and pharmacies. The importance of the electronic prescription also lies in being an effective means in developing the management style of clinics, hospitals and medical cente
+
+        </p>
+
+    </div>
+
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>

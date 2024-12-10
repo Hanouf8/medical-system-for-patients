@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+  <title>Patient</title>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+              aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+              class="icon-bar"></span> <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand"  th:href="@{/index}">Home</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+        <li sec:authorize="isAuthenticated()" ><a th:href="@{/doctor}">For Doctors</a></li>
+        <li sec:authorize="isAuthenticated()"  ><a th:href="@{/pharmacist}">For pharmacist</a></li>
+        <li sec:authorize="isAuthenticated()" ><a th:href="@{/patient}">For patients</a></li>
+
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/doctor/create-prescription}">Add a Prescription to a patient</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+<div class="container">
+  <h1>Patient</h1>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Identification Number</th>
+        <th>Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr >
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.identificationNumber}"></td>
+        <td th:text="${user.email}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+  <br>
+  <br>
+
+  <h2>Your All Prescriptions </h2>
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Drug Name</th>
+      <th>User Name</th>
+      <th>Actions</th> <!-- New column for actions -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="prescription : ${prescriptions}">
+      <td th:text="${prescription.id}"></td>
+      <td th:text="${prescription.date}"></td>
+      <td th:text="${prescription.drug.name}"></td>
+      <td th:text="${prescription.user.firstName} + ' ' + ${prescription.user.lastName}"></td>
+      <td>
+        <!--        <a th:href="@{/pharmacist/edit/{id}(id=${prescription.id})}">Edit</a>-->
+<!--        <a th:href="@{/pharmacist/delete/{id}(id=${prescription.id})}">Delete</a>-->
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <h1>Drug Information</h1>
+
+  <h4>Search with name to get the pharmacy and address</h4>
+  <form>
+    <input type="text" id="drugName" placeholder="Enter drug name" style="width:70%">
+    <button type="button" onclick="searchDrug()">Search</button>
+  </form>
+
+
+  <br>
+  <br>
+
+<h4>please look at prescription and look at your drug and contact with pharmacy with phone and drug will be delivered</h4>
+ <br>
+  <br>
+  <h4>all drugs with pharmacies and phones</h4>
+  <table id="drugTable" class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Drug Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Pharmacy Name</th>
+      <th>Pharmacy Address</th>
+      <th>Pharmacy Phone</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="drug : ${drugs}">
+      <td th:text="${drug.id}"></td>
+      <td th:text="${drug.name}"></td>
+      <td th:text="${drug.quantity}"></td>
+      <td th:text="${drug.price}"></td>
+      <td th:text="${drug.pharmacy.name}"></td>
+      <td th:text="${drug.pharmacy.address}"></td>
+      <td th:text="${drug.pharmacy.phone}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+
+  <p>
+    Welcome <span sec:authentication="principal.username">Patient</span>
+  </p>
+</div>
+<script>
+function searchDrug() {
+  // Get the drug name entered by the user
+  var drugName = document.getElementById('drugName').value;
+
+  // Get all the rows in the table
+  var table = document.getElementById('drugTable');
+  var rows = table.getElementsByTagName('tr');
+
+  // Iterate over the rows and hide/show them based on the drug name
+  for (var i = 0; i < rows.length; i++) {
+    var drugCell = rows[i].getElementsByTagName('td')[1]; // Assuming drug name is in the second column
+
+    if (drugCell) {
+      var drug = drugCell.textContent || drugCell.innerText; // Get the text content of the drug cell
+
+      if (drug.toLowerCase().includes(drugName.toLowerCase())) {
+        rows[i].style.display = ''; // Show the row
+      } else {
+        rows[i].style.display = 'none'; // Hide the row
+      }
+    }
+  }
+}
+</script>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>
